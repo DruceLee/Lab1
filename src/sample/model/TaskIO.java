@@ -110,7 +110,7 @@ public class TaskIO {
 
                 String a2 = "";
                 a2 += (day != 0 ?  (day == 1 ? day + " day " : day + " days ") : "") +
-                        (hours != 0 ?  (hours == 1 ? hours + " hour " : day + " hours ") : "") +
+                        (hours != 0 ?  (hours == 1 ? hours + " hour " : hours + " hours ") : "") +
                         (minutes != 0 ?  (minutes == 1 ? minutes + " minute " : minutes + " minutes ") : "") +
                         (sec != 0 ?  (sec == 1 ? sec + " second" : sec + " seconds") : "");
                 if ("".equals(a2))

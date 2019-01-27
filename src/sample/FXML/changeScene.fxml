@@ -107,6 +107,6 @@
          </children>
       </AnchorPane>
       <Button layoutX="264.0" layoutY="345.0" mnemonicParsing="false" onAction="#back" prefWidth="142.0" text="Back" />
-      <Button layoutX="14.0" layoutY="345.0" mnemonicParsing="false" prefWidth="142.0" text="Change" />
+      <Button layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#change" prefWidth="142.0" text="Change" />
    </children>
 </Pane>

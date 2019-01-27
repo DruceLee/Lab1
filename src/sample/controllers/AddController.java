@@ -68,11 +68,6 @@ public class AddController {
             } else {
                 throw new TaskException("Неправильне введення данних, заповніть поля для повторюваної або неповторюваної задачі.");
             }
-
-            /*Task task = new Task(titleText, times, starts, ends, intervals, actives);
-            Stage s = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-            s.close();*/
-
         } catch (TaskException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText(e.getMessage());

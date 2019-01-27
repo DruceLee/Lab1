@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -41,20 +42,18 @@ public class MainController {
     @FXML
     private TableColumn<Task, String> columnActive;
 
-    FXMLLoader fxmlLoader = new FXMLLoader();
-
     @FXML
     private void initialize() {
         TaskList taskList = new ArrayTaskList();
         File file = new File("src/sample/source/tasks.txt");
         TaskIO.readText(taskList, file);
 
-        columnTitle.setCellValueFactory(new PropertyValueFactory<Task, String>("title"));
-        columnTime.setCellValueFactory(new PropertyValueFactory<Task, String>("time"));
-        columnStart.setCellValueFactory(new PropertyValueFactory<Task, String>("start"));
-        columnEnd.setCellValueFactory(new PropertyValueFactory<Task, String>("end"));
-        columnInterval.setCellValueFactory(new PropertyValueFactory<Task, String>("interval"));
-        columnActive.setCellValueFactory(new PropertyValueFactory<Task, String>("active"));
+        columnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        columnStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        columnEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        columnInterval.setCellValueFactory(new PropertyValueFactory<>("interval"));
+        columnActive.setCellValueFactory(new PropertyValueFactory<>("active"));
 
         observableTaskList.add(taskList);
         table.setItems(observableTaskList.getTasks());
@@ -63,6 +62,7 @@ public class MainController {
     public void add(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("../FXML/addScene.fxml"));
             Parent root = fxmlLoader.load();
             ((AddController) fxmlLoader.getController()).setTask(observableTaskList);
@@ -81,6 +81,7 @@ public class MainController {
     public void calendar(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("../FXML/calendarScene.fxml"));
             Parent root = fxmlLoader.load();
             ((CalendarController) fxmlLoader.getController()).setTask(observableTaskList);
@@ -117,7 +118,10 @@ public class MainController {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/changeScene.fxml"));
             Parent root = loader.load();
-            ((ChangeController) loader.getController()).setTask(table.getSelectionModel().getSelectedItem());
+            Task task = table.getSelectionModel().getSelectedItem();
+            if (task == null)
+                throw new TaskException("Оберіть потрібну вам задачу.");
+            ((ChangeController) loader.getController()).setTask(task);
             stage.setTitle("Change Task");
             stage.setResizable(false);
             stage.setScene(new Scene(root));
@@ -126,6 +130,10 @@ public class MainController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (TaskException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
     }
 }
