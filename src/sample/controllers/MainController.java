@@ -136,4 +136,8 @@ public class MainController {
             alert.show();
         }
     }
+
+    public void refresh(ActionEvent actionEvent) {
+        table.refresh();
+    }
 }

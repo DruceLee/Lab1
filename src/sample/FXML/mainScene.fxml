@@ -45,8 +45,9 @@
       </AnchorPane>
       <Button layoutX="14.0" layoutY="276.0" mnemonicParsing="false" onAction="#add" prefWidth="142.0" text="Add" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="14.0" />
       <Button layoutX="444.0" layoutY="276.0" mnemonicParsing="false" onAction="#calendar" prefWidth="142.0" text="Calendar" AnchorPane.bottomAnchor="62.0" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="229.0" layoutY="324.0" mnemonicParsing="false" onAction="#exit" prefWidth="142.0" text="Exit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="229.0" />
+      <Button layoutX="229.0" layoutY="324.0" maxWidth="142.0" mnemonicParsing="false" onAction="#exit" prefWidth="142.0" text="Exit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="229.0" />
       <Button layoutX="14.0" layoutY="324.0" mnemonicParsing="false" onAction="#change" prefWidth="142.0" text="Change" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
       <Button layoutX="444.0" layoutY="324.0" mnemonicParsing="false" onAction="#delete" prefWidth="142.0" text="Delete" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Button layoutX="230.0" layoutY="276.0" maxWidth="142.0" mnemonicParsing="false" onAction="#refresh" prefWidth="142.0" text="Refresh" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="228.0" />
    </children>
 </AnchorPane>
