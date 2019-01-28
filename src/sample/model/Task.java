@@ -88,7 +88,7 @@ public class Task implements Serializable {
         if (isRepeated() && active) {
             if (current.before(start) && !current.equals(start))
                 return start;
-            for (Date i = start; i.before(end); i.setTime(i.getTime() + a)) {
+            for (Date i = (Date) start.clone(); i.before(end); i.setTime(i.getTime() + a)) {
                 if (current.getTime() >= i.getTime() && current.getTime() < i.getTime() + a && i.getTime() + a <= end.getTime()) {
                     date.setTime(i.getTime() + a);
                     return date;

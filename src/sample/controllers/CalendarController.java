@@ -58,7 +58,7 @@ public class CalendarController {
                 throw new TaskException("За заданими параметрами нічого не було знайдено.");
 
             Date date = setSortedMap.firstKey();
-            Set<Task> tasks = setSortedMap.get(date.getTime());
+            Set<Task> tasks = setSortedMap.get(date);
             List<DateTitle> list = new ArrayList<>();
             for (Task task : tasks) {
                 list.add(new DateTitle(task.getTitle(), date));

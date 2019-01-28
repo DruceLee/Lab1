@@ -73,7 +73,7 @@ public class TaskIO {
     }
 
     public static void write(TaskList tasks, Writer out) throws IOException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         PrintWriter printWriter = new PrintWriter(out);
         printWriter.print(tasks.size());
@@ -136,7 +136,7 @@ public class TaskIO {
         out.close();
     }
     public static void read(TaskList tasks, Reader in) throws IOException, TaskException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         BufferedReader reader = new BufferedReader(in);
         int size = Integer.parseInt(reader.readLine());
         String s;
