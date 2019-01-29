@@ -17,6 +17,11 @@ import sample.model.*;
 import java.io.File;
 import java.io.IOException;
 
+
+/**
+ * Класс используется как обработчик событий страницы mainScene.fxml
+ * @author Андрей Шерстюк
+ */
 public class MainController {
 
     private ObservableTaskList observableTaskList = new ObservableTaskList();
@@ -42,6 +47,8 @@ public class MainController {
     @FXML
     private TableColumn<Task, String> columnActive;
 
+
+    /** Метод который вызывается при запуске окна, задает начальные параметры в главное окно */
     @FXML
     private void initialize() {
         TaskList taskList = new ArrayTaskList();
@@ -59,6 +66,11 @@ public class MainController {
         table.setItems(observableTaskList.getTasks());
     }
 
+    /**
+     * Метод перехода на окно добавления задачи
+     * @param actionEvent - событие, что произошло
+     * @exception IOException окно не удалось загрузить
+     */
     public void add(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
@@ -74,10 +86,15 @@ public class MainController {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Метод перехода на окно календаря, совершая передачу observableTaskList
+     * @param actionEvent - событие, что произошло
+     * @exception IOException окно не удалось загрузить
+     */
     public void calendar(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
@@ -93,26 +110,41 @@ public class MainController {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Метод выхода из главного окна, сохраняя задачи в файле
+     * @param actionEvent - событие, что произошло
+     * @exception IOException в файл не удалось записать информацию
+     */
     public void exit(ActionEvent actionEvent) {
         try {
             TaskList taskList = new LinkedTaskList();
             taskList.add(observableTaskList);
             TaskIO.writeText(taskList, new File("src/sample/source/tasks.txt"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         System.exit(0);
     }
 
+    /**
+     * Метод для удаления выбраной задачи
+     * @param actionEvent - событие, что произошло
+     */
     public void delete(ActionEvent actionEvent) {
         Task task = table.getSelectionModel().getSelectedItem();
         observableTaskList.delete(task);
     }
 
+    /**
+     * Метод для перехода на окно изменения задачи, совершая передачу выбраной задачи
+     * @param actionEvent - событие, что произошло
+     * @exception IOException если была ошибка при загрузке страницы
+     * @exception TaskException если задача не выбрана
+     */
     public void change(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
@@ -129,7 +161,7 @@ public class MainController {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (TaskException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText(e.getMessage());
@@ -137,6 +169,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Метод для обновления информации в таблице
+     * @param actionEvent - событие, что произошло
+     */
     public void refresh(ActionEvent actionEvent) {
         table.refresh();
     }

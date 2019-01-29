@@ -3,28 +3,55 @@ package sample.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Класс задач со свойствами <b>title</b>, <b>time</b>, <b>start</b>, <b>end</b>, <b>interval</b>, <b>active</b>.
+ * @author Андрей Шерстюк
+ */
 public class Task implements Serializable {
+    /** Поле заглавия задачи */
     private String title;
+    /** Поле времени выполнения задачи */
     private Date time = null;
+    /** Поле начала выполнения задачи */
     private Date start = null;
+    /** Поле конца выполнения задачи */
     private Date end = null;
+    /** Поле интервала повторения задачи */
     private int interval;
+    /** Поле активности задачи */
     private boolean active;
 
+    /** Конструктор - создание нового объекта */
     public Task() {
     }
 
+    /** Конструктор - создание нового объекта с определенными значениями
+     * @param title - заглавие
+     * @param active - активность
+     */
     public Task(String title, boolean active) {
         this.title = title;
         this.active = active;
     }
 
+    /** Конструктор - создание нового объекта с определенными значениями
+     * @param title - заглавие
+     * @param time - время выполнения задачи
+     * @param active - активность
+     */
     public Task(String title, Date time, boolean active) {
         this.title = title;
         this.time = time;
         this.active = active;
     }
 
+    /** Конструктор - создание нового объекта с определенными значениями
+     * @param title - заглавие
+     * @param start - время начала выполнения задачи
+     * @param end - время окончания выполнения задачи
+     * @param interval - значение через которое задача будет повторятся
+     * @param active - активность
+     */
     public Task(String title, Date start, Date end, int interval, boolean active) {
         this.title = title;
         this.start = start;
@@ -34,32 +61,40 @@ public class Task implements Serializable {
         this.time = null;
     }
 
-    public Task(String title, Date time, Date start, Date end, int interval, boolean active) {
-        this.title = title;
-        this.time = time;
-        this.start = start;
-        this.end = end;
-        this.interval = interval;
-        this.active = active;
-    }
 
+    /**
+     * Конструктор - создание нового объекта с определенными значениями
+     * @param title - заглавие
+     */
     public Task(String title) throws TaskException {
         setTitle(title);
     }
 
-    //конструктор для задач которые не повторяются
+    /**
+     * Конструктор - создание нового объекта с определенными значениями
+     * @param title - заглавие
+     * @param time - время выполнения задачи
+     */
     public Task(String title, Date time) throws TaskException {
         setTitle(title);
         this.time = time;
     }
 
-    //конструктор для задач которые повторяются
+    /** Конструктор - создание нового объекта с определенными значениями
+     * @param title - заглавие
+     * @param start - время начала выполнения задачи
+     * @param end - время окончания выполнения задачи
+     * @param interval - значение через которое задача будет повторятся
+     */
     public Task(String title, Date start, Date end, int interval) throws TaskException {
         setTitle(title);
         setTime(start, end, interval);
     }
 
-    //метод для изменения повторяемой задачи на неповторяемую
+    /** Метод для изменения повторяемой задачи на неповторяемую
+     * @param time - время выполнения задачи
+     * @exception TaskException - время задано неправильно
+     */
     public void setTime(Date time) throws TaskException {
         if (time.getTime() < 0)
             throw new TaskException(" time < 0");
@@ -68,7 +103,12 @@ public class Task implements Serializable {
             this.interval = 0;
     }
 
-    //якщо задача не повторювалася метод має стати такою, що повторюється
+    /** Метод для изменения неповторяемой задачи на повторяемую
+     * @param start - время начала выполнения задачи
+     * @param end - время конца выполнения задачи
+     * @param interval - значение через которое задача будет повторятся
+     * @exception TaskException - время задано неправильно
+     */
     public void setTime(Date start, Date end, int interval) throws TaskException {
         if (start.getTime() < 0 || end.getTime() < 0)
             throw new TaskException(" start time or end time < 0");
@@ -80,7 +120,9 @@ public class Task implements Serializable {
         this.interval = interval;
     }
 
-    //запись нового времени относительно заданого
+    /** Метод для определения следующего время выполнения задачи
+     * @param current - время, относительно которого проходит поиск
+     */
     public Date nextTimeAfter(Date current) {
         Date date = new Date();
         int a;
@@ -103,7 +145,10 @@ public class Task implements Serializable {
         return null;
     }
 
-    //проверка повторяемости задачи
+    /**
+     * Метод для определения является ли задача повторяемой
+     * @return возвращает boolean значение, является ли задача повторяемой
+     */
     public boolean isRepeated() {
         if (interval > 0)
             return true;
@@ -111,75 +156,134 @@ public class Task implements Serializable {
             return false;
     }
 
-    //метод для возвращения времени следующего выполнения задачи, в случае если задача повторяется
+    /**
+     * Метод для получение поля {@link Task#time}
+     * @return возвращает время выполнения задачи
+     */
     public Date getTime() {
-        if (isRepeated())
-            return start;
-        else
-            return time;
+        return time;
     }
 
+    /**
+     * Метод для определения поля {@link Task#title}
+     * @param title - заглавие задачи
+     * @exception TaskException - заглавие задано неправильно
+     */
     public void setTitle(String title) throws TaskException {
         if (title == null)
             throw new TaskException(" title is empty");
         this.title = title;
     }
 
+    /**
+     * Метод для получение поля {@link Task#start}
+     * @return возвращает время начала выполнения задачи
+     */
     public Date getStart() {
         return start;
     }
 
+    /**
+     * Метод для определения поля {@link Task#start}
+     * @param start - время начала выполнения задачи
+     */
     public void setStart(Date start) {
         this.start = start;
     }
 
+    /**
+     * Метод для получение поля {@link Task#end}
+     * @return возвращает время конца выполнения задачи
+     */
     public Date getEnd() {
         return end;
     }
 
+    /**
+     * Метод для определения поля {@link Task#end}
+     * @param end - время конца выполнения задачи
+     */
     public void setEnd(Date end) {
         this.end = end;
     }
 
+    /**
+     * Метод для получение поля {@link Task#interval}
+     * @return возвращает значение через которое задачу будет повторятся
+     */
     public int getInterval() {
         return interval;
     }
 
+    /**
+     * Метод для определения поля {@link Task#interval}
+     * @param interval - значение через которое задачу будет повторятся
+     */
     public void setInterval(int interval) {
         this.interval = interval;
     }
 
+    /**
+     * Метод для получения поля {@link Task#title}
+     * @return возвращает заглавие задачи
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Метод для получения поля {@link Task#active}
+     * @return возвращает активность задачи
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * Метод для получения поля {@link Task#active}
+     * @return возвращает активность задачи
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * Метод для получение поля {@link Task#start}
+     * @return возвращает время начала выполнения задачи
+     */
     public Date getStartTime() {
         return start;
     }
 
+    /**
+     * Метод для получение поля {@link Task#end}
+     * @return возвращает время конца выполнения задачи
+     */
     public Date getEndTime() {
         return end;
     }
 
+    /**
+     * Метод для получение поля {@link Task#interval}
+     * @return возвращает значение через которое задачу будет повторятся
+     */
     public int getRepeatInterval() {
-        if (!isRepeated())
-            return 0;
-        else
-            return interval;
+        return interval;
     }
 
+    /**
+     * Метод для вывода Task в виде строки
+     * @return возвращает строку состоящую из элементов класса Task
+     */
     public String toString() {
         return title + " " + time + " " + start + " " + end + " " + interval + " " + active + "\n";
     }
 
+    /**
+     * Метод для сравнивания объектов класса Task
+     * @param object - объект с которым сравнивают даный
+     * @return возвращает boolean значение, равны ли два объекта
+     */
     @Override
     public boolean equals(Object object) {
         if (object == this)
@@ -200,6 +304,9 @@ public class Task implements Serializable {
                 && active == task.isActive();
     }
 
+    /**
+     * Метод возвращающий hashCode объекта класса Task
+     * @return возвращает значение хеш-кода объекта*/
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -219,6 +326,10 @@ public class Task implements Serializable {
         return result;
     }
 
+    /**
+     * Метод для создания клона текущего объекта класса Task
+     * @return возвращает клон текущего объекта
+     */
     @Override
     public Task clone() {
         Task task = new Task();

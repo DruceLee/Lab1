@@ -17,6 +17,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Класс используется как обработчик событий страницы calendarScene.fxml
+ * @author Андрей Шерстюк
+ */
 public class CalendarController {
 
     @FXML
@@ -36,15 +40,29 @@ public class CalendarController {
 
     private ObservableTaskList observableTaskList;
 
+    /**
+     * Метод для передачи списка задач в данный класс
+     * @param observableTaskList - объект класса Task который будет изменен
+     */
     public void setTask(ObservableTaskList observableTaskList) {
         this.observableTaskList = observableTaskList;
     }
 
+    /**
+     * Метод для закрытия даного окна и разблокировки главного окна
+     * @param actionEvent - событие, что произошло
+     */
     public void back(ActionEvent actionEvent) {
         Stage s = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         s.close();
     }
 
+    /**
+     * Метод для поиска среди задач по критериям
+     * @param actionEvent - событие, что произошло
+     * @exception ParseException если пользователь ввел данные в неправильном формате
+     * @exception TaskException если за данными критериями ничего небыло найдено
+     */
     public void search(ActionEvent actionEvent) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {

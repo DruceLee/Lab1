@@ -4,25 +4,50 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Класс для сохранения задач в списке
+ * @author Андрей Шерстюк
+ */
 public class LinkedTaskList extends TaskList {
+    /** Размер списка */
     private int index = 0;
+
+    /** Объект класса Element хранящий ссылку начала списка */
     private Element start = null;
+
+    /** Объект класса Element хранящий ссылку конеца списка */
     private Element end = null;
 
+    /** Внутренний класс */
     private class Element {
-        Task task = null;
+        /** Объект типа Task */
+        Task task;
+
+        /** Объект класса Element хранящий ссылку на следующий элемент */
         Element next = null;
+
+        /** Объект класса Element хранящий ссылку на предыдущий элемент */
         Element previous = null;
 
+        /**
+         * Конструктор класса Element с параметрами
+         * @param value - объект типа Task
+         */
         Element(Task value) {
             this.task = value;
         }
 
     }
 
+    /** Конструктор без параметров */
     public LinkedTaskList() {
     }
 
+
+    /**
+     * Метод для добавления задач
+     * @param task1 Задача которую нужно добавить
+     */
     @Override
     public void add(Task task1) {
         if (task1 == null)
@@ -41,6 +66,10 @@ public class LinkedTaskList extends TaskList {
         }
     }
 
+    /**
+     * Метод для добавления задач
+     * @param observableTaskList список задач которые нужно добавить в список
+     */
     @Override
     public void add(ObservableTaskList observableTaskList) {
         for (int i = 0; i < observableTaskList.size(); i++) {
@@ -48,6 +77,11 @@ public class LinkedTaskList extends TaskList {
         }
     }
 
+    /**
+     * Метод для удаления задачи с массиве
+     * @param task Задача которую нужно удалить
+     * @return возвращает boolean значение, существование удаленной задачи
+     */
     @Override
     public boolean remove(Task task) {
         if (task == null)
@@ -83,11 +117,20 @@ public class LinkedTaskList extends TaskList {
         }
     }
 
+    /**
+     * Метод который возвращает количество элементов в arraylist
+     * @return возвращает количество элементов в массиве
+     */
     @Override
     public int size() {
         return index;
     }
 
+    /**
+     * Метод для получения задачи по индексу
+     * @param index1 Номер задачи
+     * @return возвращает задачу с номером index1
+     */
     @Override
     public Task getTask(int index1) {
         int i;
@@ -160,6 +203,10 @@ public class LinkedTaskList extends TaskList {
         return it;
     }
 
+    /**
+     * Метод для возвращения списка задач в виде строки
+     * @return возвращает строку состоящую из объектов типа Task
+     */
     @Override
     public String toString() {
         Task task;
@@ -181,6 +228,10 @@ public class LinkedTaskList extends TaskList {
         return s;
     }
 
+    /**
+     * Метод который возвращает клон списка задач что вызывает метод
+     * @return возвращает клон даного списка задач
+     */
     @Override
     public LinkedTaskList clone() {
         LinkedTaskList ls = new LinkedTaskList();

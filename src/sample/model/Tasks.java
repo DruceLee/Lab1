@@ -2,8 +2,19 @@ package sample.model;
 
 import java.util.*;
 
+/**
+ * Класс для поиска за критериями
+ * @author Андрей Шерстюк
+ */
 public class Tasks {
 
+    /**
+     * Метод для поиска активных задач в заданом промежутке
+     * @param tasks - список в котором будет происходить поиск
+     * @param start - время от которого нужно продолжать поиск
+     * @param end - время до которого нужно продолжать поиск
+     * @return возвращает список, который получился в результате поиска
+     */
     public static Iterable<Task> incoming(Iterable<Task> tasks, Date start, Date end) {
         Iterable<Task> iterable = new HashSet<>();
         Iterator iterator = tasks.iterator();
@@ -36,6 +47,14 @@ public class Tasks {
         return iterable;
     }
 
+    /**
+     * Метод возвращающий объект типа SortedMap
+     * @param tasks - список в котором будет происходить поиск
+     * @param start - время от которого нужно продолжать поиск
+     * @param end - время до которого нужно продолжать поиск
+     * @return возвращает объект типа SortedMap состоящий из ключа типа Date
+     * и значений типа Set, состоящих из объектов типа Task
+     */
     public static SortedMap<Date, Set<Task>> calendar(Iterable<Task> tasks, Date start, Date end) {
         SortedMap<Date, Set<Task>> sortedMap = new TreeMap<>();
         Iterator<Task> iterator = tasks.iterator();

@@ -5,7 +5,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Класс для работы с файлами
+ * @author Андрей Шерстюк
+ */
 public class TaskIO {
+
+    /**
+     * Метод для бинарной записи списка задач в файл
+     * @param tasks - список задач, которые нужно записать в файл
+     * @param out - */
     public static void write(TaskList tasks, OutputStream out) throws IOException {
         try(out) {
             ObjectOutputStream os = new ObjectOutputStream(out);
@@ -29,6 +38,11 @@ public class TaskIO {
 
     }
 
+    /**
+     * Метод для бинарной записи списка задач в файл
+     * @param tasks - список задач, которые нужно записать в файл
+     * @param file - объект класса File
+     */
     public static void writeBinary(TaskList tasks, File file) throws IOException {
         try {
             write(tasks, new FileOutputStream(file.getPath()));
@@ -37,6 +51,11 @@ public class TaskIO {
         }
     }
 
+    /**
+     * Метод для бинарного считывания списка задач с файла
+     * @param tasks - список задач, в который нужно записать считаные с файла задачи
+     * @param in -
+     */
     public static void read(TaskList tasks, InputStream in) throws IOException, ClassNotFoundException, TaskException  {
         try {
             ObjectInputStream o = new ObjectInputStream(in);
@@ -64,6 +83,11 @@ public class TaskIO {
 
     }
 
+    /**
+     * Метод для бинарного считывания списка задач с файла
+     * @param tasks - список задач, в который нужно записать считаные с файла задачи
+     * @param file - объект класса File
+     */
     public static void readBinary(TaskList tasks, File file)  throws IOException, ClassNotFoundException, TaskException {
         try {
             read(tasks, new FileInputStream(file.getPath()));
@@ -72,6 +96,11 @@ public class TaskIO {
         }
     }
 
+
+    /**
+     * Метод для текстовой записи списка задач в файл
+     * @param tasks - список задач, которые нужно записать в файл
+     * @param out - */
     public static void write(TaskList tasks, Writer out) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -135,6 +164,11 @@ public class TaskIO {
         }
         out.close();
     }
+
+    /**
+     * Метод для текстового считывания списка задач с файла
+     * @param tasks - список задач, в который нужно записать считаные задачи с файла
+     * @param in - */
     public static void read(TaskList tasks, Reader in) throws IOException, TaskException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         BufferedReader reader = new BufferedReader(in);
@@ -227,10 +261,22 @@ public class TaskIO {
         }
         in.close();
     }
+
+    /**
+     * Метод для текстовой записи списка задач в файл
+     * @param tasks - список задач, которые нужно записать в файл
+     * @param file - объект класса File
+     */
     public static void writeText(TaskList tasks, File file) throws IOException {
         FileWriter writer = new FileWriter(file.getPath());
         write(tasks, writer);
     }
+
+    /**
+     * Метод для текстового считывания списка задач с файла
+     * @param tasks - список задач, в который нужно записать считаные задачи с файла
+     * @param file - объект класса File
+     */
     public static void readText(TaskList tasks, File file) {
         try {
             FileReader reader = new FileReader(file.getPath());

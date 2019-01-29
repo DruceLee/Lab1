@@ -10,30 +10,45 @@ import sample.model.ObservableTaskList;
 import sample.model.Task;
 import sample.model.TaskException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Класс используется как обработчик событий страницы addScene.fxml
+ * @author Андрей Шерстюк
+ */
 public class AddController {
 
     @FXML
     private TextField title;
+
     @FXML
     private TextField time;
+
     @FXML
     private TextField start;
+
     @FXML
     private TextField end;
+
     @FXML
     private TextField interval;
+
     @FXML
     private TextField active;
 
     private ObservableTaskList observableTaskList;
 
+    /**
+     * Метод для передачи списка задач в данный класс
+     * @param observableTaskList - объект класса Task который будет изменен
+     */
     public void setTask(ObservableTaskList observableTaskList) {
         this.observableTaskList = observableTaskList;
     }
 
+    /** Метод который вызывается при загрузке даного окна, задает начальные параметры в даное окно */
     public void initialize() {
         title.setPromptText("Title");
         time.setPromptText("Time format: yyyy-mm-dd hh:mm:ss");
@@ -43,6 +58,12 @@ public class AddController {
         active.setPromptText("Active format: true or false");
     }
 
+    /**
+     * Метод для добавления в список новой задачи полями которой будут значения TextField'ов
+     * @param actionEvent - событие, что произошло
+     * @exception ParseException если пользователь ввел неправильные параметры(которые неудовлетворяют вид уууу-mm-dd hh:mm:ss
+     * @exception TaskException если
+     */
     public void add(ActionEvent actionEvent) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -74,13 +95,17 @@ public class AddController {
             alert.setWidth(600);
             alert.setHeight(400);
             alert.show();
-        } catch (Exception e) {
+        } catch (ParseException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Неправильне введення даних");
             alert.show();
         }
     }
 
+    /**
+     * Метод для закрытия даного окна и разблокировки главного окна
+     * @param actionEvent - событие, что произошло
+     */
     public void back(ActionEvent actionEvent) {
         Stage s = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         s.close();
