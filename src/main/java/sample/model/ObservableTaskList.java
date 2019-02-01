@@ -4,40 +4,41 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Класс для использования в TableView
- * @author Андрей Шерстюк*/
+ * Class for use in the TableView
+ * @author Andrey Sherstyuk
+ */
 public class ObservableTaskList {
 
-    /**Список задач реагирующий на изменения, состоящий из объектов типа Task*/
+    /** Task list that reacts to changes, consisting of objects of type Task */
     private ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     /**
-     * Метод для получение поля {@link ObservableTaskList#tasks}
-     * @return возвращает список
+     * Method to get the field  {@link ObservableTaskList#tasks}
+     * @return returns list
      */
     public ObservableList<Task> getTasks() {
         return tasks;
     }
 
     /**
-     * Метод для определения поля {@link ObservableTaskList#tasks}
-     * @param tasks - время начала выполнения задачи
+     * Method to determine the field  {@link ObservableTaskList#tasks}
+     * @param tasks - task list
      */
     public void setTasks(ObservableList<Task> tasks) {
         this.tasks = tasks;
     }
 
     /**
-     * Метод для добавления задач
-     * @param task - задача для добавления в список
+     * Method to add tasks
+     * @param task - task to add to tasks
      */
     public void add(Task task) {
         tasks.add(task);
     }
 
     /**
-     * Метод для добавления задач
-     * @param taskList - список задач для добавления в tasks
+     * Method to add tasks
+     * @param taskList - task list to add to tasks
      */
     public void add(TaskList taskList) {
         if (taskList == null)
@@ -48,25 +49,25 @@ public class ObservableTaskList {
     }
 
     /**
-     * Метод для получения задачи по индексу
-     * @param index - номер задачи которую нужно получить
-     * @return возвращает задачу по индексу
+     * Method to get the task by index
+     * @param index - task number to get
+     * @return returns task by index
      */
     public Task getTask(int index) {
         return tasks.get(index);
     }
 
     /**
-     * Метод для получения размера tasks
-     * @return возвращает размер
+     * Method to get the size of tasks
+     * @return returns size
      */
     public int size() {
         return tasks.size();
     }
 
     /**
-     * Метод для удаления задачи
-     * @param task - задача которую нужно удалить
+     * Method to delete a task
+     * @param task - task to be deleted
      */
     public void delete(Task task) {
         tasks.remove(task);

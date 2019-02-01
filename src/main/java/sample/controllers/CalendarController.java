@@ -1,15 +1,12 @@
 package sample.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import sample.model.*;
@@ -19,41 +16,41 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Класс используется как обработчик событий страницы calendarScene.fxml
- * @author Андрей Шерстюк
+ * The class is used as a page event handler calendarScene.fxml
+ * @author Andrey Sherstyuk
  */
 public class CalendarController {
 
     private static Logger logger = Logger.getLogger(CalendarController.class);
 
     @FXML
-    private TextField startTime;
+    private DatePicker startTime;
 
     @FXML
-    private TextField endTime;
+    private DatePicker endTime;
 
     @FXML
-    private TableColumn<DateTitle, String> dateColumn;
+    private TableColumn<ObservableMap.Entry<Date, Set<Task>>, String> dateColumn;
 
     @FXML
-    private TableColumn<DateTitle, String> titleColumn;
+    private TableColumn<ObservableMap.Entry<Date, Set<Task>>, String> titleColumn;
 
     @FXML
-    private TableView<DateTitle> tableCalendar;
+    private TableView<ObservableMap.Entry<Date, Set<Task>>> tableCalendar;
 
     private ObservableTaskList observableTaskList;
 
     /**
-     * Метод для передачи списка задач в данный класс
-     * @param observableTaskList - объект класса Task который будет изменен
+     * Method for passing the task list to this class
+     * @param observableTaskList - an object of class Task that will be changed
      */
     public void setTask(ObservableTaskList observableTaskList) {
         this.observableTaskList = observableTaskList;
     }
 
     /**
-     * Метод для закрытия даного окна и разблокировки главного окна
-     * @param actionEvent - событие, что произошло
+     * Method to close this window and unlock the main window
+     * @param actionEvent - event what happened
      */
     public void back(ActionEvent actionEvent) {
         Stage s = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -61,49 +58,40 @@ public class CalendarController {
     }
 
     /**
-     * Метод для поиска среди задач по критериям
-     * @param actionEvent - событие, что произошло
-     * @exception ParseException если пользователь ввел данные в неправильном формате
-     * @exception TaskException если за данными критериями ничего небыло найдено
+     * Method to search among tasks by criteria
+     * @param actionEvent - event what happened
+     * @exception ParseException if the date field is incorrect
+     * @exception TaskException if the title field is incorrect
      */
     public void search(ActionEvent actionEvent) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date1 = dateFormat.parse(startTime.getText());
-            Date date2 = dateFormat.parse(endTime.getText());
+            Date date1 = dateFormat.parse(startTime.getValue().toString());
+            Date date2 = dateFormat.parse(endTime.getValue().toString());
             TaskList taskList = new LinkedTaskList();
             taskList.add(observableTaskList);
             TreeMap<Date, Set<Task>> setSortedMap = (TreeMap<Date, Set<Task>>) Tasks.calendar(taskList, date1, date2);
 
             if (setSortedMap.size() == 0)
-                throw new TaskException("За заданими параметрами нічого не було знайдено.");
+                throw new TaskException("Nothing was found for the given parameters.");
 
-            Date date = setSortedMap.firstKey();
-            Set<Task> tasks = setSortedMap.get(date);
-            List<DateTitle> list = new ArrayList<>();
-            for (Task task : tasks) {
-                list.add(new DateTitle(task.getTitle(), date));
-            }
-            while ((date = setSortedMap.higherKey(date)) != null) {
-                tasks = setSortedMap.get(date);
-                for (Task task : tasks) {
-                    list.add(new DateTitle(task.getTitle(), date));
-                }
-            }
+            titleColumn.setCellValueFactory((p) -> {
+                return new SimpleStringProperty(p.getValue().getValue().toString());
+            });
 
-            logger.info("По заданым критериям: " + dateFormat.format(date1) + " и "
-                        + dateFormat.format(date2) + " найдено " + setSortedMap.size());
+            dateColumn.setCellValueFactory((p) -> {
+                SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                return new SimpleStringProperty(dateFormat1.format(p.getValue().getKey()));
+            });
 
-            titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-            dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-            tableCalendar.setItems(FXCollections.observableArrayList(list));
+            tableCalendar.setItems(FXCollections.observableArrayList(setSortedMap.entrySet()));
         } catch (ParseException e) {
-            logger.error("Дата введена неправильно в окне calendar");
+            logger.error("The date entered incorrectly in the calendar window");
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Дата введена неправильно");
+            alert.setContentText("Date entered incorrectly");
             alert.show();
         } catch (TaskException e) {
-            logger.info("По заданым критериями ничего небыло найдено.");
+            logger.info("By the given criteria nothing has been found.");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(e.getMessage());
             alert.show();

@@ -3,93 +3,263 @@ package sample.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalTimeStringConverter;
 import org.apache.log4j.Logger;
 import sample.model.Task;
 import sample.model.TaskException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.FormatStyle;
 
 
 /**
- * Класс используется как обработчик событий страницы changeScene.fxml
- * @author Андрей Шерстюк
+ * The class is used as a page event handler changeScene.fxml
+ * @author Andrey Sherstyuk
  */
-public class ChangeController {
+public class ChangeController extends Spinner<LocalTime> {
 
     private static Logger logger = Logger.getLogger(ChangeController.class);
 
     @FXML
-    private TextField title;
+    private AnchorPane start;
 
     @FXML
-    private TextField time;
+    private AnchorPane end;
 
     @FXML
-    private TextField start;
+    private AnchorPane time;
 
     @FXML
-    private TextField end;
+    private Tab firstTab;
+
+    private Spinner<LocalTime> startTime;
+
+    private Spinner<LocalTime> endTime;
+
+    private Spinner<LocalTime> timeTime;
+
+    @FXML
+    private DatePicker timeDate;
+
+    @FXML
+    private DatePicker startDate;
+
+    @FXML
+    private DatePicker endDate;
+
+    @FXML
+    private TextField titleRep;
 
     @FXML
     private TextField interval;
 
     @FXML
-    private TextField active;
+    private TextField titleUnRep;
+
+    @FXML
+    private CheckBox activeRep;
+
+    @FXML
+    private CheckBox activeUnRep;
 
     private Task task;
 
+    public void initialize() {
+        startTime = new Spinner<LocalTime>(new SpinnerValueFactory<LocalTime>() {
+
+            {
+                setConverter(new LocalTimeStringConverter(FormatStyle.MEDIUM));
+            }
+
+            @Override
+            public void decrement(int steps) {
+                if (getValue() == null)
+                    setValue(LocalTime.now());
+                else {
+                    LocalTime time = getValue();
+                    setValue(time.minusHours(steps));
+                }
+            }
+
+            @Override
+            public void increment(int steps) {
+                if (this.getValue() == null)
+                    setValue(LocalTime.now());
+                else {
+                    LocalTime time = getValue();
+                    setValue(time.plusHours(steps));
+                }
+            }
+        });
+        endTime = new Spinner<LocalTime>(new SpinnerValueFactory<LocalTime>() {
+
+            {
+                setConverter(new LocalTimeStringConverter(FormatStyle.MEDIUM));
+            }
+
+            @Override
+            public void decrement(int steps) {
+                if (getValue() == null)
+                    setValue(LocalTime.now());
+                else {
+                    LocalTime time = getValue();
+                    setValue(time.minusHours(steps));
+                }
+            }
+
+            @Override
+            public void increment(int steps) {
+                if (this.getValue() == null)
+                    setValue(LocalTime.now());
+                else {
+                    LocalTime time = getValue();
+                    setValue(time.plusHours(steps));
+                }
+            }
+        });
+        timeTime = new Spinner<LocalTime>(new SpinnerValueFactory<LocalTime>() {
+
+            {
+                setConverter(new LocalTimeStringConverter(FormatStyle.MEDIUM));
+            }
+
+            @Override
+            public void decrement(int steps) {
+                if (getValue() == null)
+                    setValue(LocalTime.now());
+                else {
+                    LocalTime time = getValue();
+                    setValue(time.minusHours(steps));
+                }
+            }
+
+            @Override
+            public void increment(int steps) {
+                if (this.getValue() == null)
+                    setValue(LocalTime.now());
+                else {
+                    LocalTime time = getValue();
+                    setValue(time.plusHours(steps));
+                }
+            }
+        });
+
+        start.getChildren().add(startTime);
+        end.getChildren().add(endTime);
+        time.getChildren().add(timeTime);
+
+        startTime.setMinHeight(31);
+        startTime.setMinWidth(120);
+        endTime.setMinHeight(31);
+        endTime.setMinWidth(120);
+        timeTime.setMinHeight(31);
+        timeTime.setMinWidth(120);
+
+        startTime.setEditable(true);
+        endTime.setEditable(true);
+        timeTime.setEditable(true);
+
+    }
+
     /**
-     * Метод для заполнения полей соответствующими значениями
-     * @param task - объект класса Task который будет изменен
+     * Method to fill fields with appropriate values
+     * @param task - an object of class Task that will be changed
      */
     public void setTask(Task task) {
         this.task = task;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (!task.isRepeated()) {
-            title.setText(task.getTitle());
-            time.setText(dateFormat.format(task.getTime()));
-            active.setText(task.isActive() ? "true" : "false");
+            titleUnRep.setText(task.getTitle());
+
+            String s = dateFormat.format(task.getTime());
+            int a = s.indexOf(" ");
+            timeDate.setPromptText(s.substring(0, a));
+            timeTime.setPromptText(s.substring(a + 1, s.length()));
+
+            activeUnRep.setSelected(task.isActive());
         } else {
-            title.setText(task.getTitle());
-            start.setText(dateFormat.format(task.getStart()));
-            end.setText(dateFormat.format(task.getEnd()));
+            titleRep.setText(task.getTitle());
+
+            String s = dateFormat.format(task.getStart());
+            int a = s.indexOf(" ");
+            startDate.setPromptText(s.substring(0, a));
+            startTime.setPromptText(s.substring(a + 1, s.length()));
+
+            s = dateFormat.format(task.getEnd());
+            endDate.setPromptText(s.substring(0, a));
+            endTime.setPromptText(s.substring(a + 1, s.length()));
+
             interval.setText(Integer.toString(task.getInterval()));
-            active.setText(task.isActive() ? "true" : "false");
+            activeRep.setSelected(task.isActive());
         }
     }
 
     /**
-     * Метод для изменения задачи
-     * @param actionEvent - событие, что произошло
-     * @exception Exception если данные указаны неправильно
+     * Method to change the task
+     * @param actionEvent - event what happened
+     * @exception TaskException if the title field is incorrect
+     * @exception ParseException if the date field is incorrect
      */
     public void change(ActionEvent actionEvent) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            if (time.getText().isEmpty()) {
-                task.setTime(dateFormat.parse(start.getText()), dateFormat.parse(end.getText()), Integer.parseInt(interval.getText()));
+            if (firstTab.isSelected()) {
+                if ("".equals(titleRep.getText()))
+                    throw new TaskException("The title field is empty.");
+
+                if (titleRep.getText().length() > 100)
+                    throw new TaskException("The size of the \"title\" field is greater than 100 characters.");
+
+                if ("".equals(interval.getText()))
+                    throw new TaskException("The interval field is empty.");
+
+                if (Integer.parseInt(interval.getText()) < 0)
+                    throw new TaskException("The interval field must be greater than 0");
+
+                task.setTitle(titleRep.getText());
+                task.setTime(dateFormat.parse(startDate.getValue().toString() + " " + startTime.getValue()),
+                                                dateFormat.parse(endDate.getValue().toString() + " " + endTime.getValue()),
+                                                Integer.parseInt(interval.getText()));
+                task.setActive(activeRep.isSelected());
             } else {
-                task.setTime(dateFormat.parse(time.getText()));
+                if ("".equals(titleUnRep.getText()))
+                    throw new TaskException("The title field is empty.");
+
+                if (titleUnRep.getText().length() > 100)
+                    throw new TaskException("The size of the \"title\" field is greater than 100 characters.");
+
+                task.setTitle(titleUnRep.getText());
+                task.setTime(dateFormat.parse(timeDate.getValue() + " " + timeTime.getValue()));
+                task.setStart(null);
+                task.setEnd(null);
+                task.setInterval(0);
+                task.setActive(activeUnRep.isSelected());
             }
-            task.setTitle(title.getText());
-            task.setActive("true".equals(active.getText()));
+
             Stage s = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-            logger.info("Изменение задачи прошло успешно");
+            logger.info("Task change successful.");
             s.close();
-        } catch (Exception e) {
-            logger.info("Неправильный формат данных в окне change");
+        } catch (TaskException e) {
+            logger.info("Incorrect data format in the \"title\" field in the \"change\" window.");
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Неправильне введення даних");
+            alert.setContentText(e.getMessage());
+            alert.show();
+        } catch (ParseException e) {
+            logger.info("Incorrect data format in the \"date\" field in the \"change\" window.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Date entered incorrectly.");
             alert.show();
         }
     }
 
     /**
-     * Метод для закрытия даного окна и разблокировки главного окна
-     * @param actionEvent - событие, что произошло
+     * Method to close this window and unlock the main window
+     * @param actionEvent - event what happened
      */
     public void back(ActionEvent actionEvent) {
         Stage s = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();

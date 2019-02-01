@@ -1,37 +1,35 @@
 package sample.model;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
- * Класс для сохранения задач в списке
- * @author Андрей Шерстюк
+ * Class for saving tasks in the array
+ * @author Andrey Sherstyuk
  */
 public class LinkedTaskList extends TaskList {
-    /** Размер списка */
+    /** The number of elements in the array */
     private int index = 0;
 
-    /** Объект класса Element хранящий ссылку начала списка */
+    /** An object of class Element storing the link to the beginning of the list */
     private Element start = null;
 
-    /** Объект класса Element хранящий ссылку конеца списка */
+    /** An Element class object storing the link to the end of list link */
     private Element end = null;
 
-    /** Внутренний класс */
+    /** Inner class */
     private class Element {
-        /** Объект типа Task */
+        /** Task type object */
         Task task;
 
-        /** Объект класса Element хранящий ссылку на следующий элемент */
+        /** An Element class object storing a link to the next element. */
         Element next = null;
 
-        /** Объект класса Element хранящий ссылку на предыдущий элемент */
+        /** An Element class object storing a link to the previous element. */
         Element previous = null;
 
         /**
-         * Конструктор класса Element с параметрами
-         * @param value - объект типа Task
+         * Element class constructor with parameters
+         * @param value - Task type object
          */
         Element(Task value) {
             this.task = value;
@@ -39,14 +37,14 @@ public class LinkedTaskList extends TaskList {
 
     }
 
-    /** Конструктор без параметров */
+    /** No-argument constructor */
     public LinkedTaskList() {
     }
 
 
     /**
-     * Метод для добавления задач
-     * @param task1 Задача которую нужно добавить
+     * Method to add tasks
+     * @param task1 task to add
      */
     @Override
     public void add(Task task1) {
@@ -67,8 +65,8 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-     * Метод для добавления задач
-     * @param observableTaskList список задач которые нужно добавить в список
+     * Method to add tasks
+     * @param observableTaskList the list of tasks to be added to the list
      */
     @Override
     public void add(ObservableTaskList observableTaskList) {
@@ -78,9 +76,9 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-     * Метод для удаления задачи с массиве
-     * @param task Задача которую нужно удалить
-     * @return возвращает boolean значение, существование удаленной задачи
+     * Method to delete a task from an list
+     * @param task task to be deleted
+     * @return returns a boolean value if the task existed
      */
     @Override
     public boolean remove(Task task) {
@@ -118,8 +116,8 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-     * Метод который возвращает количество элементов в arraylist
-     * @return возвращает количество элементов в массиве
+     * Method that returns the number of elements in the linkedList
+     * @return returns the number of elements in an linkedList
      */
     @Override
     public int size() {
@@ -127,8 +125,8 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-     * Метод для получения задачи по индексу
-     * @param index1 Номер задачи
+     * Method to get the task by index
+     * @param index1 Task number
      * @return возвращает задачу с номером index1
      */
     @Override
@@ -204,8 +202,8 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-     * Метод для возвращения списка задач в виде строки
-     * @return возвращает строку состоящую из объектов типа Task
+     * Method to return the task list as a string
+     * @return returns a string consisting of objects of type Task
      */
     @Override
     public String toString() {
@@ -229,8 +227,8 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-     * Метод который возвращает клон списка задач что вызывает метод
-     * @return возвращает клон даного списка задач
+     * A method that returns a clone of the task list that calls the method.
+     * @return returns a clone of this task list
      */
     @Override
     public LinkedTaskList clone() {

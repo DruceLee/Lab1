@@ -16,12 +16,14 @@ import org.apache.log4j.Logger;
 import sample.model.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 
 
 /**
- * Класс используется как обработчик событий страницы mainScene.fxml
- * @author Андрей Шерстюк
+ * The class is used as a page event handler mainScene.fxml
+ * @author Andrey Sherstyuk
  */
 public class MainController {
 
@@ -51,12 +53,20 @@ public class MainController {
     private TableColumn<Task, String> columnActive;
 
 
-    /** Метод который вызывается при запуске окна, задает начальные параметры в главное окно */
+    /** The method that is called when the window starts, sets the initial parameters in the main window */
     @FXML
     private void initialize() {
         TaskList taskList = new ArrayTaskList();
         File file = new File("tasks.txt");
-        TaskIO.readText(taskList, file);
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            logger.error("An error occurred while creating the file.");
+        }
+
+        if (!(file.length() == 0))
+            TaskIO.readText(taskList, file);
 
         columnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -67,13 +77,13 @@ public class MainController {
 
         observableTaskList.add(taskList);
         table.setItems(observableTaskList.getTasks());
-        logger.info("При заполнении таблицы ошибки небыло");
+        logger.info("There was no error when filling the table");
     }
 
     /**
-     * Метод перехода на окно добавления задачи
-     * @param actionEvent - событие, что произошло
-     * @exception IOException окно не удалось загрузить
+     * The method of transition to the add task window
+     * @param actionEvent - event what happened
+     * @exception IOException window failed to load
      */
     public void add(ActionEvent actionEvent) {
         try {
@@ -81,8 +91,10 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/FXML/addScene.fxml"));
             Parent root = fxmlLoader.load();
-            logger.info("Окно add загружено");
+            logger.info("Add window loaded");
             ((AddController) fxmlLoader.getController()).setTask(observableTaskList);
+
+            stage.setResizable(false);
             stage.setTitle("Add Task");
             stage.setMinWidth(420);
             stage.setMinHeight(420);
@@ -97,9 +109,9 @@ public class MainController {
     }
 
     /**
-     * Метод перехода на окно календаря, совершая передачу observableTaskList
-     * @param actionEvent - событие, что произошло
-     * @exception IOException окно не удалось загрузить
+     * The method of transition to the calendar window, making the transfer observableTaskList
+     * @param actionEvent - event what happened
+     * @exception IOException window failed to load
      */
     public void calendar(ActionEvent actionEvent) {
         try {
@@ -107,7 +119,7 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/FXML/calendarScene.fxml"));
             Parent root = fxmlLoader.load();
-            logger.info("Окно calendar загружено успешно");
+            logger.info("The calendar window loaded successfully");
             ((CalendarController) fxmlLoader.getController()).setTask(observableTaskList);
             stage.setTitle("Calendar");
             stage.setScene(new Scene(root));
@@ -117,42 +129,42 @@ public class MainController {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             stage.show();
         } catch (IOException e) {
-            logger.error("Путь к файлу небыл найден");
+            logger.error("File path was not found");
             System.out.println(e.getMessage());
         }
     }
 
     /**
-     * Метод выхода из главного окна, сохраняя задачи в файле
-     * @param actionEvent - событие, что произошло
-     * @exception IOException в файл не удалось записать информацию
+     * The exit method from the main window, saving tasks in a file
+     * @param actionEvent - event what happened
+     * @exception IOException information could not be written to the file
      */
     public void exit(ActionEvent actionEvent) {
         try {
             TaskList taskList = new LinkedTaskList();
             taskList.add(observableTaskList);
             TaskIO.writeText(taskList, new File("tasks.txt"));
-            logger.info("Запись в файл при закрытии успешна");
+            logger.info("Entry at the closing of the file is successful");
         } catch (IOException e) {
-            logger.error("Файл для записи небыл найден");
+            logger.error("The file to record was not found");
             System.out.println(e.getMessage());
         }
         System.exit(0);
     }
 
     /**
-     * Метод для удаления выбраной задачи
-     * @param actionEvent - событие, что произошло
+     * Method to delete the selected task
+     * @param actionEvent - event what happened
      */
     public void delete(ActionEvent actionEvent) {
         try {
             Task task = table.getSelectionModel().getSelectedItem();
             if (task == null)
-                throw new TaskException("Оберіть потрібну вам задачу.");
+                throw new TaskException("Choose the task you want.");
             observableTaskList.delete(task);
-            logger.info("Задача " + task.toString() + " успешно удалена");
+            logger.info("Task " + task.toString() + " successfully deleted");
         } catch (TaskException e) {
-            logger.info("Пользователь не выбрал задачу для удаления");
+            logger.info("The user did not select the task to delete");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText(e.getMessage());
             alert.show();
@@ -160,10 +172,10 @@ public class MainController {
     }
 
     /**
-     * Метод для перехода на окно изменения задачи, совершая передачу выбраной задачи
-     * @param actionEvent - событие, что произошло
-     * @exception IOException если была ошибка при загрузке страницы
-     * @exception TaskException если задача не выбрана
+     * Method to go to the task change window, making the transfer of the selected task
+     * @param actionEvent - event what happened
+     * @exception IOException if there was an error loading the page
+     * @exception TaskException if the task is not selected
      */
     public void change(ActionEvent actionEvent) {
         try {
@@ -172,9 +184,10 @@ public class MainController {
             Parent root = loader.load();
             Task task = table.getSelectionModel().getSelectedItem();
             if (task == null)
-                throw new TaskException("Оберіть потрібну вам задачу.");
-            logger.info("Загрузка окна change успешна");
+                throw new TaskException("Choose the task you want.");
+            logger.info("The loading of the change window is successful");
             ((ChangeController) loader.getController()).setTask(task);
+
             stage.setTitle("Change Task");
             stage.setResizable(false);
             stage.setScene(new Scene(root));
@@ -182,10 +195,10 @@ public class MainController {
             stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             stage.show();
         } catch (IOException e) {
-            logger.error("Файл небыл найден");
+            logger.error("File changeScene.fxml not found");
             System.out.println(e.getMessage());
         } catch (TaskException e) {
-            logger.info("Задача небыла выбрана");
+            logger.info("The task was not selected");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText(e.getMessage());
             alert.show();
@@ -193,11 +206,11 @@ public class MainController {
     }
 
     /**
-     * Метод для обновления информации в таблице
-     * @param actionEvent - событие, что произошло
+     * Method for updating table information
+     * @param actionEvent - event what happened
      */
     public void refresh(ActionEvent actionEvent) {
-        logger.info("Обновление списка задач");
+        logger.info("Update task list");
         table.refresh();
     }
 }

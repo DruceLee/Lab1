@@ -3,56 +3,55 @@ package sample.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 /**
- * Класс для хранения объектов типа Task
- * @author Андрей Шерстюк
+ * Class for storing Task type objects
+ * @author Andrey Sherstyuk
  */
 abstract public class TaskList implements Iterable<Task>, Serializable {
 
     /**
-     * Метод для добавления задач
-     * @param task Задача которую нужно добавить
+     * Method to add tasks
+     * @param task - task to add to list
      */
     abstract public void add(Task task);
 
     /**
-     * Метод для удаления задачи с массиве
-     * @param task Задача которую нужно удалить
-     * @return возвращает boolean значение, существование удаленной задачи
+     * Method to delete a task
+     * @param task task to be deleted
+     * @return returns a boolean value if the existence of a remote task
      */
     abstract public boolean remove(Task task);
 
     /**
-     * Метод который возвращает количество элементов в arraylist
-     * @return возвращает количество элементов в массиве
+     * Method that returns the number of elements in the list
+     * @return returns the number of elements in an list
      */
     abstract public int size();
 
     /**
-     * Метод для получения задачи по индексу
-     * @param index1 Номер задачи
-     * @return возвращает задачу с номером index1
+     * Method to get the task by index
+     * @param index1 Task number
+     * @return returns the task that number index1
      */
     abstract public Task getTask(int index1);
 
     /**
-     * Метод который возвращает клон списка задач что вызывает метод
-     * @return возвращает клон даного списка задач
+     * A method that returns a clone of the task list that calls the method.
+     * @return returns a clone of this task list
      */
     abstract public TaskList clone();
 
     /**
-     * Метод для добавления задач
-     * @param observableTaskList список задач которые нужно добавить в список
+     * Method to add tasks
+     * @param observableTaskList the list of tasks to be added to the list
      */
     abstract public void add(ObservableTaskList observableTaskList);
 
     /**
-     * Метод для определения равности списков задач
-     * @param  tasks список с которым будет сравнён даный
-     * @return возвращает boolean значение, если списки равны
+     * Method for determining whether task lists are equal
+     * @param  tasks the list with which the data will be compared
+     * @return returns a boolean value, equality of lists
      */
     public boolean equals(TaskList tasks) {
         boolean b = false;
@@ -67,8 +66,8 @@ abstract public class TaskList implements Iterable<Task>, Serializable {
     }
 
     /**
-     * Метод для возвращения хеш-кода
-     * @return возвращает значение хеш-кода списка
+     * Method to return the hash code
+     * @return returns list hash code value
      */
     public int hashCode() {
         final int prime = 31;
@@ -82,10 +81,10 @@ abstract public class TaskList implements Iterable<Task>, Serializable {
     }
 
     /**
-     * Метод для нахождения активных задач в промежутке
-     * @param from начало промежутка
-     * @param to   конец промежутка
-     * @return возвращает список задач которые будут выполнятся еще минимум 1 раз
+     * Method for finding active tasks in the gap
+     * @param from the beginning of the gap
+     * @param to   the end of gap
+     * @return returns a list of tasks that will be executed at least once more
      */
 
     public TaskList incoming(Date from, Date to) {

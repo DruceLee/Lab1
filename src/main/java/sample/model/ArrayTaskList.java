@@ -1,22 +1,21 @@
 package sample.model;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 
 /**
- * Класс для сохранения задач в массиве
- * @author Андрей Шерстюк
+ * Class for saving tasks in the array
+ * @author Andrey Sherstyuk
  */
 public class ArrayTaskList extends TaskList {
-    /** Массив для хранения задач */
+    /** Array for storing tasks */
     private Task[] tasks;
-    /** Количество элементов в массиве */
+    /** The number of elements in the array */
     private int index = 0;
 
     /**
-     * Метод для добавления задач
-     * @param task Задача которую нужно добавить
+     * Method to add tasks
+     * @param task task to add
      */
     @Override
     public void add(Task task) {
@@ -32,8 +31,8 @@ public class ArrayTaskList extends TaskList {
     }
 
     /**
-     * Метод для добавления задач
-     * @param observableTaskList список задач которые нужно добавить в список
+     * Method to add tasks
+     * @param observableTaskList the list of tasks to be added to the list
      */
     @Override
     public void add(ObservableTaskList observableTaskList) {
@@ -43,9 +42,9 @@ public class ArrayTaskList extends TaskList {
     }
 
     /**
-     * Метод для удаления задачи с массиве
-     * @param task Задача которую нужно удалить
-     * @return возвращает boolean значение, существование удаленной задачи
+     * Method to delete a task from an array
+     * @param task task to be deleted
+     * @return returns a boolean value if the task existed
      */
     @Override
     public boolean remove(Task task) {
@@ -64,8 +63,8 @@ public class ArrayTaskList extends TaskList {
     }
 
     /**
-     * Метод который возвращает количество элементов в arraylist
-     * @return возвращает количество элементов в массиве
+     * Method that returns the number of elements in the arrayList
+     * @return returns the number of elements in an arrayList
      */
     @Override
     public int size() {
@@ -73,9 +72,9 @@ public class ArrayTaskList extends TaskList {
     }
 
     /**
-     * Метод для получения задачи по индексу
-     * @param index1 Номер задачи
-     * @return возвращает задачу с номером index1
+     * Method to get the task by index
+     * @param index1 Task number
+     * @return returns the task that number index1
      */
     @Override
     public Task getTask(int index1) {
@@ -134,8 +133,8 @@ public class ArrayTaskList extends TaskList {
     }
 
     /**
-     * Метод для возвращения списка задач в виде строки
-     * @return возвращает строку состоящую из объектов типа Task
+     * Method to return the task list as a string
+     * @return returns a string consisting of objects of type Task
      */
     @Override
     public String toString() {
@@ -143,8 +142,8 @@ public class ArrayTaskList extends TaskList {
     }
 
     /**
-     * Метод который возвращает клон списка задач что вызывает метод
-     * @return возвращает клон даного списка задач
+     * A method that returns a clone of the task list that calls the method.
+     * @return returns a clone of this task list
      */
     @Override
     public ArrayTaskList clone() {

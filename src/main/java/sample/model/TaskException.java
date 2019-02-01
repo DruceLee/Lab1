@@ -1,14 +1,14 @@
 package sample.model;
 
 /**
- * Класс для генерации исключений
- * @author Андрей Шерстюк
+ * Class to generate exceptions
+ * @author Andrey Sherstyuk
  */
 public class TaskException extends Exception {
 
     /**
-     * Конструктор с параметром
-     * @param message - сообщение
+     * Constructor with parameter
+     * @param message - massage
      */
     public TaskException(String message) {
         super(message);

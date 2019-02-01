@@ -3,17 +3,17 @@ package sample.model;
 import java.util.*;
 
 /**
- * Класс для поиска за критериями
- * @author Андрей Шерстюк
+ * Class to search for criteria
+ * @author Andrey Sherstyuk
  */
 public class Tasks {
 
     /**
-     * Метод для поиска активных задач в заданом промежутке
-     * @param tasks - список в котором будет происходить поиск
-     * @param start - время от которого нужно продолжать поиск
-     * @param end - время до которого нужно продолжать поиск
-     * @return возвращает список, который получился в результате поиска
+     * Method to search for active tasks in a given interval
+     * @param tasks - the list in which the search will take place
+     * @param start - time to start searching
+     * @param end - time to end searching
+     * @return It returns a list, which is obtained by the search
      */
     public static Iterable<Task> incoming(Iterable<Task> tasks, Date start, Date end) {
         Iterable<Task> iterable = new HashSet<>();
@@ -48,12 +48,12 @@ public class Tasks {
     }
 
     /**
-     * Метод возвращающий объект типа SortedMap
-     * @param tasks - список в котором будет происходить поиск
-     * @param start - время от которого нужно продолжать поиск
-     * @param end - время до которого нужно продолжать поиск
-     * @return возвращает объект типа SortedMap состоящий из ключа типа Date
-     * и значений типа Set, состоящих из объектов типа Task
+     * Method returns an object of type SortedMap
+     * @param tasks - the list in which the search will take place
+     * @param start - time to start searching
+     * @param end - time to end searching
+     * @return returns an object of type SortedMap consisting of a key of type Date
+     * and values of type Set consisting of objects of type Task
      */
     public static SortedMap<Date, Set<Task>> calendar(Iterable<Task> tasks, Date start, Date end) {
         SortedMap<Date, Set<Task>> sortedMap = new TreeMap<>();

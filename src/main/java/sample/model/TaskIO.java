@@ -8,17 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Класс для работы с файлами
- * @author Андрей Шерстюк
+ * Class for working with files
+ * @author Andrey Sherstyuk
  */
 public class TaskIO {
 
     private static Logger logger = Logger.getLogger(TaskIO.class);
 
     /**
-     * Метод для бинарной записи списка задач в файл
-     * @param tasks - список задач, которые нужно записать в файл
-     * @param out - поток для записи
+     * Method for binary writing task list to file
+     * @param tasks - list of tasks to be written to the file
+     * @param out - write stream
      */
     public static void write(TaskList tasks, OutputStream out) throws IOException {
         try(out) {
@@ -44,9 +44,9 @@ public class TaskIO {
     }
 
     /**
-     * Метод для бинарной записи списка задач в файл
-     * @param tasks - список задач, которые нужно записать в файл
-     * @param file - объект класса File
+     * Method for binary writing task list to file
+     * @param tasks - list of tasks to be written to the file
+     * @param file - File class object
      */
     public static void writeBinary(TaskList tasks, File file) throws IOException {
         try {
@@ -57,9 +57,9 @@ public class TaskIO {
     }
 
     /**
-     * Метод для бинарного считывания списка задач с файла
-     * @param tasks - список задач, в который нужно записать считаные с файла задачи
-     * @param in - поток для чтения
+     * Method for binary reading the task list from a file
+     * @param tasks - the list of tasks to which you want to write the tasks read from the file
+     * @param in - stream to read
      */
     public static void read(TaskList tasks, InputStream in) throws IOException, ClassNotFoundException, TaskException  {
         try {
@@ -89,9 +89,9 @@ public class TaskIO {
     }
 
     /**
-     * Метод для бинарного считывания списка задач с файла
-     * @param tasks - список задач, в который нужно записать считаные с файла задачи
-     * @param file - объект класса File
+     * Method for binary reading the task list from a file
+     * @param tasks - the list of tasks to which you want to write the tasks read from the file
+     * @param file - File class object
      */
     public static void readBinary(TaskList tasks, File file)  throws IOException, ClassNotFoundException, TaskException {
         try {
@@ -103,9 +103,9 @@ public class TaskIO {
 
 
     /**
-     * Метод для текстовой записи списка задач в файл
-     * @param tasks - список задач, которые нужно записать в файл
-     * @param out - поток для записи
+     * Method for text writing the task list to a file
+     * @param tasks - list of tasks to be written to the file
+     * @param out - write stream
      */
     public static void write(TaskList tasks, Writer out) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -172,9 +172,9 @@ public class TaskIO {
     }
 
     /**
-     * Метод для текстового считывания списка задач с файла
-     * @param tasks - список задач, в который нужно записать считаные задачи с файла
-     * @param in - поток для чтения
+     * Method for text reading the task list from a file
+     * @param tasks - task list to which you want to write the read tasks from the file
+     * @param in - stream to read
      */
     public static void read(TaskList tasks, Reader in) throws IOException, TaskException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -270,9 +270,9 @@ public class TaskIO {
     }
 
     /**
-     * Метод для текстовой записи списка задач в файл
-     * @param tasks - список задач, которые нужно записать в файл
-     * @param file - объект класса File
+     * Method for text writing the task list to a file
+     * @param tasks - list of tasks to be written to the file
+     * @param file - File class object
      */
     public static void writeText(TaskList tasks, File file) throws IOException {
         FileWriter writer = new FileWriter(file.getPath());
@@ -280,9 +280,9 @@ public class TaskIO {
     }
 
     /**
-     * Метод для текстового считывания списка задач с файла
-     * @param tasks - список задач, в который нужно записать считаные задачи с файла
-     * @param file - объект класса File
+     * Method for text reading the task list from a file
+     * @param tasks - task list to which you want to write the read tasks from the file
+     * @param file - File class object
      */
     public static void readText(TaskList tasks, File file) {
         try {
