@@ -15,6 +15,7 @@ import sample.model.TaskException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.Date;
 
@@ -187,15 +188,39 @@ public class AddController {
                 String titleText = titleRep.getText();
                 if ("".equals(titleText))
                     throw new TaskException("The title field is empty.");
+
                 if (titleText.length() > 100)
                     throw new TaskException("The size of the \"title\" field is greater than 100 characters.");
+
                 if ("".equals(intervalRep.getText()))
                     throw new TaskException("The interval field is empty.");
+
                 if (Integer.parseInt(intervalRep.getText()) < 0)
                     throw new TaskException("The interval field must be greater than 0");
 
-                Date starts = startDate.getValue().toString().isEmpty() ? null : dateFormat.parse(startDate.getValue().toString() + " " + startTime.getValue());
-                Date ends = endDate.getValue().toString().isEmpty() ? null : dateFormat.parse(endDate.getValue().toString() + " " + endTime.getValue());
+                if (startDate.getValue() == null)
+                    throw new TaskException("The start/date field is empty");
+
+                if (startTime.getValue() == null)
+                    throw new TaskException("The start/time field is empty");
+
+                if (endDate.getValue() == null)
+                    throw new TaskException("The end/date field is empty");
+
+                if (endTime.getValue() == null)
+                    throw new TaskException("The end/time field is empty");
+
+                Date starts = dateFormat.parse(startDate.getValue().toString() + " " +
+                                                    (startTime.getValue().toString().length() == 5 ?
+                                                            startTime.getValue() + ":00" : startTime.getValue()
+                                                    )
+                );
+                Date ends = dateFormat.parse(endDate.getValue().toString() + " " +
+                                                (endTime.getValue().toString().length() == 5 ?
+                                                        endTime.getValue() + ":00" : endTime.getValue()
+                                                )
+                );
+
                 int intervals = Integer.parseInt(intervalRep.getText());
                 boolean actives = activeRep.isSelected();
 
@@ -209,9 +234,20 @@ public class AddController {
                 String titleText = titleUnRep.getText();
                 if ("".equals(titleText))
                     throw new TaskException("The title field is empty.");
+
                 if (titleText.length() > 100)
                     throw new TaskException("The size of the \"title\" field is greater than 100 characters.");
-                Date times = timeDate.getValue().toString().isEmpty() ? null : dateFormat.parse(timeDate.getValue().toString() + " " + timeTime.getValue());
+
+                if (timeDate.getValue() == null)
+                    throw new TaskException("The time/date field is empty.");
+
+                if (timeTime.getValue() == null)
+                    throw new TaskException("The time/time field is empty.");
+
+                Date times = timeDate.getValue().toString().isEmpty() ? null : dateFormat.parse(timeDate.getValue().toString() + " " + (timeTime.getValue().toString().length() == 5 ?
+                                                                                                                                                timeTime.getValue() + ":00" : timeTime.getValue()
+                                                                                                                                              )
+                                                                                                );
                 boolean actives = activeUnRep.isSelected();
 
                 observableTaskList.add(new Task(titleText, times, actives));
@@ -229,9 +265,14 @@ public class AddController {
             alert.setHeight(200);
             alert.show();
         } catch (ParseException e) {
-            logger.error("Wrong data entry in the \"add\" window.");
+            logger.error("Wrong time entry in the \"add\" window.");
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Wrong data entry.");
+            alert.setContentText("Wrong time entry.");
+            alert.show();
+        } catch (DateTimeParseException e) {
+            logger.error("Wrong time in the \"add\" window.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Wrong time entry.");
             alert.show();
         }
     }

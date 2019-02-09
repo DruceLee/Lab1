@@ -221,10 +221,22 @@ public class ChangeController extends Spinner<LocalTime> {
                 if (Integer.parseInt(interval.getText()) < 0)
                     throw new TaskException("The interval field must be greater than 0");
 
+                if (startDate.getValue() == null)
+                    throw new TaskException("The start/date field is empty");
+
+                if (startTime.getValue() == null)
+                    throw new TaskException("The start/time field is empty");
+
+                if (endDate.getValue() == null)
+                    throw new TaskException("The end/date field is empty");
+
+                if (endTime.getValue() == null)
+                    throw new TaskException("The end/time field is empty");
+
                 task.setTitle(titleRep.getText());
-                task.setTime(dateFormat.parse(startDate.getValue().toString() + " " + startTime.getValue()),
-                                                dateFormat.parse(endDate.getValue().toString() + " " + endTime.getValue()),
-                                                Integer.parseInt(interval.getText()));
+                task.setTime(dateFormat.parse(startDate.getValue().toString() + " " + (startTime.getValue().toString().length() == 5 ? startTime.getValue() + ":00" : startTime.getValue())),
+                             dateFormat.parse(endDate.getValue().toString() + " " + (endTime.getValue().toString().length() == 5 ? endTime.getValue() + ":00" : endTime.getValue())),
+                             Integer.parseInt(interval.getText()));
                 task.setActive(activeRep.isSelected());
             } else {
                 if ("".equals(titleUnRep.getText()))
@@ -233,8 +245,19 @@ public class ChangeController extends Spinner<LocalTime> {
                 if (titleUnRep.getText().length() > 100)
                     throw new TaskException("The size of the \"title\" field is greater than 100 characters.");
 
+                if (timeDate.getValue() == null)
+                    throw new TaskException("The time/date field is empty.");
+
+                if (timeTime.getValue() == null)
+                    throw new TaskException("The time/time field is empty.");
+
                 task.setTitle(titleUnRep.getText());
-                task.setTime(dateFormat.parse(timeDate.getValue() + " " + timeTime.getValue()));
+                task.setTime(dateFormat.parse(timeDate.getValue() + " " +
+                                                    (timeTime.getValue().toString().length() == 5 ?
+                                                            timeTime.getValue() + ":00" : timeTime.getValue()
+                                                    )
+                                             )
+                );
                 task.setStart(null);
                 task.setEnd(null);
                 task.setInterval(0);

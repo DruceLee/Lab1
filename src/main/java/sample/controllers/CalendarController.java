@@ -65,7 +65,15 @@ public class CalendarController {
      */
     public void search(ActionEvent actionEvent) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(startTime.getValue());
         try {
+
+            if (startTime.getValue() == null)
+                throw new TaskException("The start time is empty.");
+
+            if (endTime.getValue() == null)
+                throw new TaskException("The end time is empty.");
+
             Date date1 = dateFormat.parse(startTime.getValue().toString());
             Date date2 = dateFormat.parse(endTime.getValue().toString());
             TaskList taskList = new LinkedTaskList();
@@ -75,9 +83,7 @@ public class CalendarController {
             if (setSortedMap.size() == 0)
                 throw new TaskException("Nothing was found for the given parameters.");
 
-            titleColumn.setCellValueFactory((p) -> {
-                return new SimpleStringProperty(p.getValue().getValue().toString());
-            });
+            titleColumn.setCellValueFactory((p) -> new SimpleStringProperty(p.getValue().getValue().toString()));
 
             dateColumn.setCellValueFactory((p) -> {
                 SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

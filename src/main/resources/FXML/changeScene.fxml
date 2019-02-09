@@ -51,8 +51,8 @@
                               <Font size="16.0" />
                            </font>
                         </CheckBox>
-                        <DatePicker fx:id="startDate" layoutX="101.0" layoutY="65.0" prefHeight="25.0" prefWidth="174.0" />
-                        <DatePicker fx:id="endDate" layoutX="101.0" layoutY="108.0" prefHeight="25.0" prefWidth="174.0" />
+                        <DatePicker fx:id="startDate" editable="false" layoutX="101.0" layoutY="65.0" prefHeight="25.0" prefWidth="174.0" />
+                        <DatePicker fx:id="endDate" editable="false" layoutX="101.0" layoutY="108.0" prefHeight="25.0" prefWidth="174.0" />
                         <TextField fx:id="interval" layoutX="101.0" layoutY="157.0" prefHeight="31.0" prefWidth="328.0" />
                         <TextField fx:id="titleRep" layoutX="101.0" layoutY="25.0" prefHeight="31.0" prefWidth="329.0" />
                         <AnchorPane fx:id="start" layoutX="282.0" layoutY="65.0" prefHeight="31.0" prefWidth="131.0" />
@@ -79,7 +79,7 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="timeDate" layoutX="101.0" layoutY="108.0" prefHeight="31.0" prefWidth="167.0" />
+                        <DatePicker fx:id="timeDate" editable="false" layoutX="101.0" layoutY="108.0" prefHeight="31.0" prefWidth="167.0" />
                         <AnchorPane fx:id="time" layoutX="279.0" layoutY="109.0" prefHeight="31.0" prefWidth="116.0" />
                      </children></AnchorPane>
             </content>

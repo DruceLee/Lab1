@@ -42,8 +42,8 @@
                         <TextField fx:id="titleRep" layoutX="108.0" layoutY="12.0" prefHeight="31.0" prefWidth="300.0" promptText="Some text" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0" />
                         <TextField fx:id="intervalRep" layoutX="108.0" layoutY="153.0" prefHeight="31.0" prefWidth="299.0" promptText="Natural number" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="154.0" />
                         <CheckBox fx:id="activeRep" layoutX="24.0" layoutY="202.0" mnemonicParsing="false" text="Active" />
-                        <DatePicker fx:id="startDate" layoutX="108.0" layoutY="56.0" prefHeight="31.0" prefWidth="214.0" />
-                        <DatePicker fx:id="endDate" layoutX="108.0" layoutY="107.0" prefHeight="31.0" prefWidth="214.0" />
+                        <DatePicker fx:id="startDate" editable="false" layoutX="108.0" layoutY="56.0" prefHeight="31.0" prefWidth="214.0" />
+                        <DatePicker fx:id="endDate" editable="false" layoutX="108.0" layoutY="107.0" prefHeight="31.0" prefWidth="214.0" />
                         <AnchorPane fx:id="first" layoutX="335.0" layoutY="57.0" prefHeight="31.0" prefWidth="152.0" />
                         <AnchorPane fx:id="second" layoutX="335.0" layoutY="107.0" prefHeight="31.0" prefWidth="152.0" />
                      </children></AnchorPane>
@@ -63,7 +63,7 @@
                            </font></Label>
                         <TextField fx:id="titleUnRep" layoutX="80.0" layoutY="46.0" prefHeight="31.0" prefWidth="329.0" promptText="Some text" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="46.0" />
                         <CheckBox fx:id="activeUnRep" layoutX="16.0" layoutY="182.0" mnemonicParsing="false" text="Active" />
-                        <DatePicker fx:id="timeDate" layoutX="80.0" layoutY="108.0" prefHeight="31.0" prefWidth="240.0" />
+                        <DatePicker fx:id="timeDate" editable="false" layoutX="80.0" layoutY="108.0" prefHeight="31.0" prefWidth="240.0" />
                         <AnchorPane fx:id="third" layoutX="334.0" layoutY="107.0" prefHeight="31.0" prefWidth="152.0" />
                      </children></AnchorPane>
             </content>
