@@ -1,5 +1,6 @@
 package sample.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,35 +59,6 @@ public class MainController {
     @FXML
     private void initialize() {
 
-        Thread myThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    Date date = new Date();
-                    System.out.println(date.toString());
-
-                    synchronized (observableTaskList) {
-                        for (int i = 0; i < observableTaskList.size(); i++) {
-                            Task task = observableTaskList.getTask(i);
-
-                            if (Math.abs(date.getTime() - task.nextTimeAfter(date).getTime()) < 1000) {
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                alert.setContentText("The task - " + task.getTitle() + " must be completed.");
-                                alert.show();
-                            }
-                        }
-                    }
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        myThread.start();
-
         TaskList taskList = new ArrayTaskList();
         File file = new File("tasks.txt");
 
@@ -109,6 +81,40 @@ public class MainController {
         observableTaskList.add(taskList);
         table.setItems(observableTaskList.getTasks());
         logger.info("There was no error when filling the table");
+
+        Thread myThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    synchronized (observableTaskList) {
+                        Date date = new Date();
+
+                        for (int i = 0; i < observableTaskList.size(); i++) {
+                            Task task = observableTaskList.getTask(i);
+
+                            if (Math.abs(date.getTime() - task.nextTimeAfter(date).getTime()) < 1000) {
+                                Platform.runLater(new Runnable() {
+                                                      @Override
+                                                      public void run() {
+                                                          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                                          alert.setContentText("The task - " + task.getTitle() + " must be completed.");
+                                                          alert.show();
+                                                      }
+                                                  });
+
+                            }
+                        }
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        myThread.start();
     }
 
     /**
