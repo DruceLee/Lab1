@@ -92,15 +92,12 @@ public class MainController {
                         for (int i = 0; i < observableTaskList.size(); i++) {
                             Task task = observableTaskList.getTask(i);
 
-                            if (Math.abs(date.getTime() - task.nextTimeAfter(date).getTime()) < 1000) {
-                                Platform.runLater(new Runnable() {
-                                                      @Override
-                                                      public void run() {
-                                                          Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                                          alert.setContentText("The task - " + task.getTitle() + " must be completed.");
-                                                          alert.show();
-                                                      }
-                                                  });
+                            if (task.nextTimeAfter(date) != null && Math.abs(date.getTime() - task.nextTimeAfter(date).getTime()) < 1000) {
+                                Platform.runLater(() -> {
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                    alert.setContentText("The task - " + task.getTitle() + " must be completed.");
+                                    alert.show();
+                                });
 
                             }
                         }

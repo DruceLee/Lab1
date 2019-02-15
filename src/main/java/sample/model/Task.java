@@ -139,9 +139,9 @@ public class Task implements Serializable {
             if (time.after(current) && active)
                 return time;
             else
-                return new Date(10);
+                return null;
         }
-        return new Date(10);
+        return null;
     }
 
     /**

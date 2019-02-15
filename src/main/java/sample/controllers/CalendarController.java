@@ -65,7 +65,6 @@ public class CalendarController {
      */
     public void search(ActionEvent actionEvent) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(startTime.getValue());
         try {
 
             if (startTime.getValue() == null)
